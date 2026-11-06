@@ -1,0 +1,15 @@
+<div class="card categories">
+<ul class="list-group list-group-flush">
+{%- for c in site.data.blog_categories -%}
+{%- assign n = site.categories[c.name] | size -%}
+<li class="list-group-item d-flex align-items-center">
+<i class="{{ c.icon }} fa-fw me-3"></i>
+<div class="flex-grow-1">
+<a href="{{ '/category/' | append: c.slug | append: '/' | relative_url }}">{{ c.name }}</a>
+<div class="small text-muted mt-1">{{ c.desc }}</div>
+</div>
+<span class="small text-muted ms-2">{{ n }}</span>
+</li>
+{%- endfor -%}
+</ul>
+</div>
