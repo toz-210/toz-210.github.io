@@ -10,7 +10,7 @@
 @use 'abstracts/variables' with (
   $theme: '{{ site.theme_mode }}',
   $font-family-base: ('IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif),
-  $font-family-heading: ('Gowun Batang', 'AppleMyungjo', 'Batang', serif)
+  $font-family-heading: ('IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif)
 );
 
 /* prettier-ignore */
@@ -129,6 +129,18 @@
 }
 
 /* ---------- 글자 ---------- */
+
+/* 제목: 본문과 같은 폰트를 굵게 */
+h1,
+h2,
+h3,
+h4,
+h5,
+.dynamic-title,
+#post-list .card .card-body .card-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
 
 .content {
   line-height: 1.8;
