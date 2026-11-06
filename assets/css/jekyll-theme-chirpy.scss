@@ -295,3 +295,15 @@ h5,
     transition: none;
   }
 }
+
+/* 저장소 README 접기/펼치기 */
+.repo-readme-toggle > summary {
+  cursor: pointer;
+  color: var(--text-muted-color);
+  font-size: 0.9rem;
+
+  &:focus-visible {
+    outline: 2px solid var(--led);
+    outline-offset: 2px;
+  }
+}

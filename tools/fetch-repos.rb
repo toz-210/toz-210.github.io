@@ -41,6 +41,10 @@ def tidy_readme(html, repo, branch)
 
   base = "https://github.com/#{OWNER}/#{repo}"
   html = html.dup
+  # 한 페이지에 README가 여러 개 들어가도 id가 겹치지 않게
+  html.sub!(' id="readme"', "")
+  # alt 없는 이미지에 빈 alt 추가 (빌드 링크 검사 통과용)
+  html.gsub!(/<img(?![^>]*\balt=)/, '<img alt=""')
   # GitHub 화면용 레이아웃 클래스 제거 (블로그 카드 안에서 여백이 틀어지지 않게)
   html.gsub!(" container-lg", "")
   # 제목 옆에 붙는 GitHub 링크 아이콘은 빼고, 이동용 id만 남김
@@ -59,10 +63,9 @@ end
 categories = YAML.safe_load(File.read(CATEGORIES, encoding: "UTF-8")) || []
 info = {}
 
-categories.each do |c|
-  repo = c["repo"]
-  next if repo.nil? || repo.empty?
+repos = categories.flat_map { |c| Array(c["repos"] || c["repo"]) }.compact.reject(&:empty?).uniq
 
+repos.each do |repo|
   puts "- #{repo}"
   meta = api_get("/repos/#{OWNER}/#{repo}")
   if meta.nil?
