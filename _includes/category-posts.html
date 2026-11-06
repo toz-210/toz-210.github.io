@@ -1,12 +1,52 @@
 {%- include lang.html -%}
 {%- assign c = site.data.blog_categories | where: 'slug', page.cat_slug | first -%}
 {%- assign posts = site.categories[c.name] -%}
+{%- assign repo = site.data.repo_info[c.repo] -%}
 <article class="px-1">
 <h1 class="dynamic-title"><i class="{{ c.icon }} fa-fw me-2 small text-muted"></i>{{ c.name }}</h1>
 <p class="text-muted mb-0">{{ c.desc }} · 글 {{ posts | size }}개</p>
 </article>
 
-<div id="post-list" class="flex-grow-1 px-xl-1">
+<div class="px-1 mt-4">
+<div class="card categories mb-3">
+<div class="card-header d-flex align-items-center hide-border-bottom">
+<i class="fab fa-github fa-fw ms-1 me-2"></i>
+<a href="https://github.com/toz-210/{{ c.repo }}" class="fw-bold">{{ c.repo }}</a>
+{%- if repo.language %}<span class="small text-muted ms-auto">{{ repo.language }}</span>{% endif -%}
+</div>
+<ul class="list-group list-group-flush">
+<li class="list-group-item">
+<div>{{ repo.description | default: '저장소 설명 없음' }}</div>
+{%- if repo.pushed_at %}<div class="small text-muted mt-1">최근 업데이트 {{ repo.pushed_at | date: "%Y.%m.%d" }}</div>{% endif -%}
+</li>
+{%- if repo.commits and repo.commits.size > 0 -%}
+{%- for cm in repo.commits -%}
+<li class="list-group-item d-flex align-items-center">
+<i class="fas fa-code-commit fa-fw me-2"></i>
+<a href="{{ cm.url }}" class="text-truncate me-2">{{ cm.message | escape }}</a>
+<span class="small text-muted ms-auto text-nowrap">{{ cm.date | date: "%m.%d" }}</span>
+</li>
+{%- endfor -%}
+{%- else -%}
+<li class="list-group-item small text-muted">아직 올라온 내용 없음</li>
+{%- endif -%}
+</ul>
+</div>
+
+{%- if repo.readme_html %}
+<div class="card categories mb-3">
+<div class="card-header d-flex align-items-center hide-border-bottom">
+<i class="fas fa-book-open fa-fw ms-1 me-2"></i><span>README</span>
+</div>
+<div class="card-body content mt-0 repo-readme">
+{{ repo.readme_html }}
+</div>
+</div>
+{%- endif %}
+</div>
+
+<h2 class="h5 px-1 mt-4 mb-0 text-muted"><i class="fas fa-pen-nib fa-fw me-1"></i>블로그 글</h2>
+<div id="post-list" class="flex-grow-1 px-xl-1 mt-3">
 {%- if posts and posts.size > 0 -%}
 {%- for post in posts -%}
 <article class="card-wrapper card">
@@ -44,9 +84,7 @@
 {%- endif -%}
 </div>
 
-<div class="d-flex justify-content-between align-items-center mt-4 px-1">
+<div class="mt-4 px-1">
 <a href="{{ '/categories/' | relative_url }}" class="btn btn-sm btn-outline-secondary">
 <i class="fas fa-angle-left me-1"></i>카테고리 목록</a>
-<a href="https://github.com/toz-210/{{ c.repo }}" class="btn btn-sm btn-outline-secondary">
-<i class="fab fa-github me-1"></i>{{ c.repo }}</a>
 </div>
