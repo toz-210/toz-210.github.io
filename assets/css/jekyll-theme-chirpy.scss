@@ -189,20 +189,7 @@ h5,
   outline-offset: 2px;
 }
 
-/* ---------- 카테고리 페이지 ---------- */
 
-.categories .list-group-item i.fa-code-commit {
-  color: var(--copper);
-}
-
-.repo-readme {
-  overflow-x: auto;
-}
-
-.repo-readme img {
-  max-width: 100%;
-  height: auto;
-}
 
 /* ---------- 카테고리 목록: 정사각형 6칸 ---------- */
 
@@ -296,14 +283,3 @@ h5,
   }
 }
 
-/* 저장소 README 접기/펼치기 */
-.repo-readme-toggle > summary {
-  cursor: pointer;
-  color: var(--text-muted-color);
-  font-size: 0.9rem;
-
-  &:focus-visible {
-    outline: 2px solid var(--led);
-    outline-offset: 2px;
-  }
-}

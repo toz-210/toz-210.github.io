@@ -31,5 +31,3 @@ assets/js/dist
 .DS_Store
 Thumbs.db
 
-# 빌드 때 생성되는 저장소 정보
-_data/repo_info.json

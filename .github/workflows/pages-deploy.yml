@@ -12,10 +12,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-  # 카테고리 저장소 내용을 주기적으로 다시 가져오기 (6시간마다)
-  schedule:
-    - cron: "17 */6 * * *"
-
 permissions:
   contents: read
   pages: write
@@ -48,11 +44,6 @@ jobs:
         with:
           ruby-version: 3.4
           bundler-cache: true
-
-      - name: Fetch category repo info
-        run: ruby tools/fetch-repos.rb
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"

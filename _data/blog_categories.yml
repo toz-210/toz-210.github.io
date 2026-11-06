@@ -1,38 +1,31 @@
 # 블로그 카테고리 목록
 # name: 글 앞부분 categories: [ ] 에 적는 이름과 정확히 같아야 함
-# repos: 이 카테고리에 연결할 GitHub 저장소 (여러 개 가능)
 - slug: dev
   name: 개발
   icon: fas fa-code
   desc: 프로젝트와 도구 개발 기록
-  repos: [dev, system-programming-lab, Computer-Systems-APP]
 
 - slug: ctf-wargame
   name: CTF/Wargame
   icon: fas fa-flag
   desc: 문제 풀이와 접근 과정
-  repos: [CTF-Wargame]
 
 - slug: bug-bounty
   name: Bug Bounty
   icon: fas fa-bug
   desc: 취약점 분석과 제보 기록
-  repos: [Bug-Bounty]
 
 - slug: tech-doc
   name: 블로그/기술문서
   icon: fas fa-book
   desc: 기술 개념 정리
-  repos: [blog-technology, cs-study]
 
 - slug: paper-conference
   name: 논문/컨퍼런스
   icon: fas fa-file-lines
   desc: 논문 리뷰와 발표 정리
-  repos: [paper-conference]
 
 - slug: contest-cert
   name: 공모전/자격증
   icon: fas fa-trophy
   desc: 대회 참가와 자격증 준비 기록
-  repos: [Contests-Certifications]
