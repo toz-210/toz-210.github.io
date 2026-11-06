@@ -1,0 +1,193 @@
+---
+---
+
+/*
+  toz-210 블로그 디자인
+  프로필 사진(기판 위의 병아리)에서 가져온 색:
+  기판 녹색 · 실크 인쇄 흰색 · 병아리 노랑 · 구리 배선
+*/
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}',
+  $font-family-base: ('IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif),
+  $font-family-heading: ('Gowun Batang', 'AppleMyungjo', 'Batang', serif)
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* ---------- 색 ---------- */
+
+@mixin board-dark {
+  --led: #f2c94c;
+  --led-halo: rgb(242 201 76 / 18%);
+  --copper: #c98a4b;
+
+  --main-bg: #0f1d16;
+  --mask-bg: #2b3a33;
+  --main-border-color: #1f3329;
+
+  --text-color: #c4d1c9;
+  --text-muted-color: #84998d;
+  --text-muted-highlight-color: #a9bbb0;
+  --heading-color: #edf2ee;
+  --label-color: #a9bbb0;
+  --blockquote-border-color: #2d4a3b;
+  --blockquote-text-color: #8fa598;
+  --link-color: #f2c94c;
+  --link-underline-color: rgb(242 201 76 / 35%);
+  --button-bg: #15281f;
+  --btn-border-color: #24392e;
+
+  --card-bg: #142820;
+  --card-header-bg: #1a3127;
+  --card-hover-bg: #2a4a3a;
+  --card-shadow: rgb(0 0 0 / 30%) 0 4px 14px 0, #24392e 0 0 0 1px;
+  --categories-border: #24392e;
+  --menu-bg: #142820;
+
+  --site-title-color: #edf2ee;
+  --site-subtitle-color: #84998d;
+  --sidebar-bg: #11231a;
+  --sidebar-border-color: #1f3329;
+  --sidebar-muted-color: #84998d;
+  --sidebar-active-color: #edf2ee;
+  --sidebar-hover-bg: #1a3127;
+  --sidebar-btn-bg: #15281f;
+  --sidebar-btn-color: #84998d;
+  --avatar-border-color: var(--copper);
+
+  --topbar-bg: rgb(15 29 22 / 72%);
+  --search-border-color: #24392e;
+  --toc-highlight: #f2c94c;
+  --tag-hover: #2a4a3a;
+}
+
+@mixin board-light {
+  --led: #e0a800;
+  --led-halo: rgb(224 168 0 / 20%);
+  --copper: #b5763a;
+
+  --main-bg: #f5f8f5;
+  --main-border-color: #e3ebe5;
+
+  --text-color: #26352d;
+  --text-muted-color: #5f7468;
+  --heading-color: #11201a;
+  --label-color: #4a5d52;
+  --blockquote-border-color: #cfe0d5;
+  --blockquote-text-color: #5f7468;
+  --link-color: #1d6b47;
+  --link-underline-color: #b7d4c3;
+
+  --card-bg: #ffffff;
+  --card-header-bg: #eef4f0;
+  --card-hover-bg: #e3efe7;
+  --card-shadow: rgb(17 32 26 / 7%) 0 4px 14px 0, #dfe9e2 0 0 0 1px;
+  --categories-border: #dfe9e2;
+
+  --site-title-color: #11201a;
+  --site-subtitle-color: #5f7468;
+  --sidebar-bg: #eaf1ec;
+  --sidebar-border-color: #dbe6de;
+  --sidebar-muted-color: #5f7468;
+  --sidebar-active-color: #11201a;
+  --sidebar-hover-bg: #dce8e0;
+  --avatar-border-color: var(--copper);
+
+  --topbar-bg: rgb(245 248 245 / 78%);
+  --toc-highlight: #1d6b47;
+  --tag-hover: #dce8e0;
+}
+
+:root[data-bs-theme='dark'] {
+  @include board-dark;
+}
+
+:root[data-bs-theme='light'] {
+  @include board-light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bs-theme]) {
+    @include board-dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-bs-theme]) {
+    @include board-light;
+  }
+}
+
+:root {
+  --bs-font-monospace: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+/* ---------- 글자 ---------- */
+
+.content {
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+/* ---------- 사이드바 ---------- */
+
+/* 프로필 사진: 구리 납땜 패드 */
+#sidebar #avatar {
+  box-shadow:
+    0 0 0 3px var(--avatar-border-color),
+    0 0 0 7px var(--sidebar-bg),
+    0 0 0 8px var(--avatar-border-color);
+}
+
+#sidebar .site-title {
+  font-family: variables.$font-family-heading;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+#sidebar .site-subtitle {
+  font-style: normal !important;
+  word-break: keep-all;
+}
+
+/* 현재 메뉴: 회색 배경 대신 LED 불빛 */
+#sidebar ul li.nav-item.active .nav-link {
+  background-color: transparent;
+}
+
+#sidebar ul li.nav-item.active .nav-link::after {
+  content: '';
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--led);
+  box-shadow: 0 0 0 3px var(--led-halo), 0 0 10px var(--led);
+}
+
+#sidebar ul li.nav-item a.nav-link:focus-visible {
+  outline: 2px solid var(--led);
+  outline-offset: 2px;
+}
+
+/* ---------- 카테고리 페이지 ---------- */
+
+.categories .list-group-item i.fa-code-commit {
+  color: var(--copper);
+}
+
+.repo-readme {
+  overflow-x: auto;
+}
+
+.repo-readme img {
+  max-width: 100%;
+  height: auto;
+}
