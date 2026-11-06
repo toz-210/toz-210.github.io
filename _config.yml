@@ -19,7 +19,7 @@ title: toz-210 # the main title
 tagline: 정보보호 공부와 문제 풀이 기록 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  가천대학교 정보보호학과 학생의 보안 공부, CTF·워게임 풀이, 버그바운티 기록.
+  보안 공부, CTF·워게임 풀이, 버그바운티 기록.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
