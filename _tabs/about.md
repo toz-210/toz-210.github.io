@@ -10,7 +10,6 @@ order: 4
 
   <dl class="profile-facts">
     <div><dt>첫 언어</dt><dd>C</dd></div>
-    <div><dt>시작</dt><dd>중학생 때</dd></div>
     <div><dt>코드</dt><dd><a href="https://github.com/toz-210">github.com/toz-210</a></dd></div>
   </dl>
 </div>
