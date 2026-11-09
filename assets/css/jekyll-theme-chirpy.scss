@@ -168,30 +168,437 @@ h5,
   word-break: keep-all;
 }
 
-/* 현재 메뉴: 회색 배경 대신 LED 불빛 */
+/* 메뉴: 아이콘 대신 핀 헤더 (구리 배선 + 납땜 패드, 현재 페이지만 불 켜짐) */
+#sidebar {
+  --pin-x: 2.85rem;
+
+  @media (min-width: 1650px) {
+    --pin-x: 4.1rem;
+  }
+}
+
+#sidebar ul li.nav-item {
+  position: relative;
+}
+
+#sidebar ul li.nav-item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--pin-x) - 1px);
+  top: -0.25rem;
+  bottom: 0;
+  width: 2px;
+  background: var(--copper);
+  opacity: 0.45;
+}
+
+#sidebar ul li.nav-item:first-child::before {
+  top: 50%;
+}
+
+#sidebar ul li.nav-item:last-child::before {
+  bottom: 50%;
+}
+
+#sidebar ul li.nav-item a.nav-link {
+  position: relative;
+  z-index: 1;
+
+  i {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    flex: none;
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-right: 1.25rem;
+    border-radius: 50%;
+    border: 2px solid var(--copper);
+    background: var(--sidebar-bg);
+  }
+
+  span {
+    font-size: 95%;
+    letter-spacing: 0;
+  }
+
+  &:hover {
+    background-color: transparent;
+    color: var(--sidebar-active-color);
+  }
+
+  &:hover::before {
+    background: var(--copper);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--led);
+    outline-offset: 2px;
+  }
+}
+
 #sidebar ul li.nav-item.active .nav-link {
   background-color: transparent;
+
+  &::before {
+    background: var(--led);
+    border-color: var(--led);
+    box-shadow: 0 0 0 3px var(--led-halo), 0 0 10px var(--led);
+  }
 }
 
-#sidebar ul li.nav-item.active .nav-link::after {
-  content: '';
-  flex: none;
-  width: 0.5rem;
-  height: 0.5rem;
-  margin-left: auto;
-  border-radius: 50%;
-  background: var(--led);
-  box-shadow: 0 0 0 3px var(--led-halo), 0 0 10px var(--led);
+/* ---------- 홈: 기판 ---------- */
+
+/* 기판은 화면 모드와 상관없이 같은 색 (물건처럼 보이게) */
+:root {
+  --pcb: #17402a;
+  --pcb-edge: #0d2618;
+  --silk: #e9efe9;
+  --silk-dim: rgb(233 239 233 / 58%);
+  --ic: #0e1411;
+  --pcb-copper: #cf9152;
+  --pcb-led: #f6cf4e;
+  --led-off: #2b4a37;
 }
 
-#sidebar ul li.nav-item a.nav-link:focus-visible {
-  outline: 2px solid var(--led);
-  outline-offset: 2px;
+.home {
+  padding-top: 1.5rem;
 }
 
+.board {
+  margin: 0 0 2.5rem;
+}
 
+.board-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: variables.$font-family-base;
 
-/* ---------- 카테고리 목록: 정사각형 6칸 ---------- */
+  .pcb {
+    fill: var(--pcb);
+    stroke: var(--pcb-edge);
+    stroke-width: 3;
+  }
+
+  .holes circle {
+    fill: var(--main-bg);
+    stroke: var(--pcb-copper);
+    stroke-width: 3;
+  }
+
+  .pin {
+    fill: #b9c2bc;
+  }
+
+  .ic-body {
+    fill: var(--ic);
+  }
+
+  .ic-notch {
+    fill: #222b26;
+  }
+
+  .ic-label {
+    fill: #d6ddd8;
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .trace {
+    fill: none;
+    stroke: var(--pcb-copper);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+    transition: opacity 0.2s, stroke 0.2s;
+  }
+
+  .via {
+    fill: var(--pcb);
+    stroke: var(--pcb-copper);
+    stroke-width: 2.5;
+  }
+
+  .fp-outline {
+    fill: rgb(255 255 255 / 3%);
+    stroke: var(--silk-dim);
+    stroke-width: 1.5;
+    transition: stroke 0.2s;
+  }
+
+  .fp-pad {
+    fill: var(--pcb-copper);
+  }
+
+  .led {
+    fill: var(--led-off);
+    stroke: rgb(0 0 0 / 25%);
+    stroke-width: 1;
+  }
+
+  .fp.is-on .led {
+    fill: var(--pcb-led);
+    filter: drop-shadow(0 0 5px var(--pcb-led));
+  }
+
+  .fp-name {
+    fill: var(--silk);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .fp-count {
+    fill: var(--silk-dim);
+    font-size: 12.5px;
+  }
+
+  .silk-rev {
+    fill: var(--silk-dim);
+    font-size: 11px;
+  }
+
+  .fp {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .fp:hover .fp-outline,
+  .fp:focus-visible .fp-outline {
+    stroke: var(--silk);
+  }
+
+  .fp:hover .trace,
+  .fp:focus-visible .trace {
+    stroke: var(--pcb-led);
+    opacity: 1;
+  }
+
+  .fp:focus-visible .fp-outline {
+    stroke: var(--pcb-led);
+    stroke-width: 3;
+  }
+}
+
+/* 처음 열 때 한 번: 배선이 칩에서 부품 쪽으로 이어짐 */
+@media (prefers-reduced-motion: no-preference) {
+  .board-svg .trace {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: trace-in 0.7s ease-out forwards;
+    animation-delay: calc(0.15s + var(--i, 0) * 0.08s);
+  }
+
+  .board-svg .fp.is-on .led {
+    opacity: 0;
+    animation: led-on 0.3s ease-out forwards;
+    animation-delay: calc(0.9s + var(--i, 0) * 0.08s);
+  }
+}
+
+@keyframes trace-in {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes led-on {
+  to {
+    opacity: 1;
+  }
+}
+
+/* 좁은 화면: 그림 대신 세로 배선 목록 */
+.board-list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 1rem 1rem 1rem 2.25rem;
+  border-radius: 12px;
+  background: var(--pcb);
+  border: 3px solid var(--pcb-edge);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    top: 2rem;
+    bottom: 2.4rem;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--pcb-copper);
+    opacity: 0.7;
+  }
+
+  li {
+    position: relative;
+  }
+
+  li + li {
+    margin-top: 0.6rem;
+  }
+
+  .board-list-ic {
+    display: inline-block;
+    padding: 0.45rem 0.9rem;
+    border-radius: 4px;
+    background: var(--ic);
+    color: #d6ddd8;
+    font-weight: 700;
+    margin-left: -1.6rem;
+  }
+
+  li:not(.board-list-ic)::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    width: 1rem;
+    height: 3px;
+    background: var(--pcb-copper);
+    opacity: 0.7;
+  }
+
+  a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--silk-dim);
+    border-radius: 4px;
+    color: var(--silk);
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    border-color: var(--silk);
+    color: var(--silk);
+  }
+
+  .bl-name {
+    font-weight: 700;
+  }
+
+  .bl-count {
+    font-size: 0.8rem;
+    color: var(--silk-dim);
+  }
+
+  .bl-led {
+    align-self: center;
+    margin-left: auto;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--led-off);
+  }
+
+  .is-on .bl-led {
+    background: var(--pcb-led);
+    box-shadow: 0 0 6px var(--pcb-led);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .board-svg {
+    display: none;
+  }
+
+  .board-list {
+    display: block;
+  }
+}
+
+.content .board-list a,
+.content .board-list a:hover {
+  border-bottom-width: 1.5px;
+}
+
+/* 소개 두 줄 */
+.home-intro {
+  max-width: 34rem;
+  margin-bottom: 3rem;
+
+  p {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.75;
+    color: var(--heading-color);
+    word-break: keep-all;
+  }
+
+  p + p {
+    margin-top: 0.25rem;
+    color: var(--text-muted-color);
+    font-size: 1rem;
+  }
+}
+
+/* 최근 글 */
+.home-recent {
+  h2 {
+    font-size: 1rem;
+    color: var(--text-muted-color);
+    margin: 0 0 0.75rem;
+  }
+
+  .recent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--main-border-color);
+  }
+
+  .recent-list li {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--main-border-color);
+  }
+
+  time {
+    color: var(--text-muted-color);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .recent-list a {
+    color: var(--heading-color);
+    font-weight: 500;
+  }
+
+  .recent-list a:hover {
+    color: var(--link-color);
+  }
+
+  .recent-cat {
+    color: var(--text-muted-color);
+    font-size: 0.8rem;
+  }
+
+  .recent-empty {
+    margin: 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--main-border-color);
+    color: var(--text-muted-color);
+  }
+
+  @media (max-width: 575.98px) {
+    .recent-list li {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+}
+
+/* ---------- 카테고리 목록: 정사각형 6칸 (부품 모양) ---------- */
 
 .cat-grid {
   display: grid;
@@ -213,27 +620,56 @@ h5,
 }
 
 .cat-grid .cat-tile {
+  position: relative;
   aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
   padding: 1.25rem;
-  border-radius: 10px;
-  background: var(--card-bg);
-  box-shadow: 0 0 0 1px var(--categories-border);
-  transition: box-shadow 0.2s ease;
+  border-radius: 4px;
+  background: transparent;
+  border: 1.5px solid var(--categories-border);
+  transition: border-color 0.2s ease;
 
-  &:hover,
-  &:focus-visible {
-    box-shadow: 0 0 0 1px var(--copper);
+  /* 왼쪽 가장자리 납땜 패드 */
+  &::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    width: 10px;
+    height: 16px;
+    margin-top: -8px;
+    border-radius: 2px;
+    background: var(--copper);
+  }
+
+  &:hover {
+    border-color: var(--copper);
   }
 
   &:focus-visible {
+    border-color: var(--led);
     outline: 2px solid var(--led);
     outline-offset: 2px;
   }
 
+  .cat-tile-led {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--categories-border);
+  }
+
+  &.is-on .cat-tile-led {
+    background: var(--led);
+    box-shadow: 0 0 0 3px var(--led-halo), 0 0 8px var(--led);
+  }
+
   .cat-tile-icon {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--copper);
     margin-bottom: auto;
   }
@@ -264,7 +700,7 @@ h5,
     padding: 0.9rem;
 
     .cat-tile-icon {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
     }
 
     .cat-tile-name {
@@ -277,9 +713,89 @@ h5,
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cat-grid .cat-tile {
-    transition: none;
+/* ---------- 정보: 데이터시트 ---------- */
+
+.datasheet {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  margin: 0.5rem 0 2.5rem;
+  border: 1.5px solid var(--categories-border);
+  border-radius: 4px;
+  max-width: 30rem;
+
+  dt,
+  dd {
+    margin: 0;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--main-border-color);
+  }
+
+  dt {
+    color: var(--text-muted-color);
+    font-weight: 500;
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--main-border-color);
+  }
+
+  dd {
+    color: var(--heading-color);
+  }
+
+  dt:last-of-type,
+  dd:last-of-type {
+    border-bottom: 0;
   }
 }
 
+/* ---------- 404 ---------- */
+
+.not-found {
+  padding: 2rem 0;
+
+  .nf-svg {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .nf-trace {
+    stroke: var(--copper);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .nf-pad {
+    fill: var(--main-bg);
+    stroke: var(--copper);
+    stroke-width: 3;
+  }
+
+  .nf-text {
+    font-size: 1.15rem;
+    color: var(--heading-color);
+  }
+}
+
+/* ---------- 하단 ---------- */
+
+footer.site-foot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+
+  @media (min-width: 850px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-grid .cat-tile,
+  .board-svg .trace,
+  .board-svg .fp-outline {
+    transition: none;
+  }
+}

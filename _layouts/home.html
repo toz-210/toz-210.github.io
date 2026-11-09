@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+{%- include lang.html -%}
+{%- assign recent = site.posts | where_exp: 'p', 'p.hidden != true' -%}
+
+<div class="home">
+  {% include board.html %}
+
+  <section class="home-intro" aria-label="소개">
+    <p>중학생 때 영화 ‘후 엠 아이’를 보고 무작정 C부터 잡은 게 시작.</p>
+    <p>지금은 보안 공부 중. 공부한 내용, 풀어본 문제, 읽은 논문 정리용.</p>
+  </section>
+
+  <section class="home-recent" aria-labelledby="recent-title">
+    <h2 id="recent-title">최근 글</h2>
+    {%- if recent.size > 0 %}
+    <ol class="recent-list">
+      {%- for post in recent limit: 8 %}
+      <li>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {%- if post.categories.size > 0 %}<span class="recent-cat">{{ post.categories | first }}</span>{% endif %}
+      </li>
+      {%- endfor %}
+    </ol>
+    {%- if recent.size > 8 %}
+    <p class="recent-more"><a href="{{ '/archives/' | relative_url }}">전체 글 보기</a></p>
+    {%- endif %}
+    {%- else %}
+    <p class="recent-empty">첫 글 준비 중</p>
+    {%- endif %}
+  </section>
+</div>

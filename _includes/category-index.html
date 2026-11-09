@@ -1,11 +1,12 @@
 <div class="cat-grid">
 {%- for c in site.data.blog_categories -%}
 {%- assign n = site.categories[c.name] | size -%}
-<a class="cat-tile" href="{{ '/category/' | append: c.slug | append: '/' | relative_url }}">
+<a class="cat-tile{% if n > 0 %} is-on{% endif %}" href="{{ '/category/' | append: c.slug | append: '/' | relative_url }}">
+<span class="cat-tile-led" aria-hidden="true"></span>
 <i class="{{ c.icon }} fa-fw cat-tile-icon" aria-hidden="true"></i>
 <span class="cat-tile-name">{{ c.name }}</span>
 <span class="cat-tile-desc">{{ c.desc }}</span>
-<span class="cat-tile-count">글 {{ n }}개</span>
+<span class="cat-tile-count">{% if n > 0 %}글 {{ n }}개{% else %}비어 있음{% endif %}</span>
 </a>
 {%- endfor -%}
 </div>
