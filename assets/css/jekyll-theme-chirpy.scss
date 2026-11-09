@@ -400,8 +400,67 @@ h5,
     fill: #2b322e;
   }
 
-  .part {
-    transition: transform 0.2s;
+  /* 보조 부품 배선 (콘덴서·저항으로 가는 짧은 선, 움직임 없음) */
+  .trace-plain {
+    fill: none;
+    stroke: var(--pcb-copper);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.7;
+  }
+
+  .via-gnd,
+  .via-vcc {
+    fill: var(--pcb);
+    stroke: var(--pcb-copper);
+    stroke-width: 2.2;
+  }
+
+  .p-smd {
+    fill: #a58a63;
+  }
+
+  .p-lid {
+    fill: #c3cac6;
+  }
+
+  .p-lid-in {
+    fill: #d9dedb;
+  }
+
+  .p-ic {
+    fill: #141a17;
+  }
+
+  .p-mark {
+    fill: #7d8781;
+    font-size: 6.5px;
+    font-weight: 500;
+  }
+
+  .p-ceramic {
+    fill: #e6e1d6;
+  }
+
+  .p-ant-band {
+    fill: #3a3f3c;
+  }
+
+  /* 기판 인쇄 글씨: 부품 번호, 핀 이름 */
+  .silk-ref {
+    fill: var(--silk-dim);
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  .silk-pin {
+    fill: var(--silk-dim);
+    font-size: 8px;
+    font-weight: 500;
+  }
+
+  .led-body {
+    fill: #e9ece8;
   }
 
   .fp-pad {
@@ -409,14 +468,16 @@ h5,
   }
 
   .led {
-    fill: var(--led-off);
-    stroke: rgb(0 0 0 / 25%);
-    stroke-width: 1;
+    fill: #c7ccc8;
   }
 
   .fp.is-on .led {
     fill: var(--pcb-led);
     filter: drop-shadow(0 0 4px var(--pcb-led));
+  }
+
+  .fp.is-on .led-body {
+    fill: #fff6d6;
   }
 
   .fp-name {
