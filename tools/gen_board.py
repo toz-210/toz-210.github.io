@@ -141,23 +141,23 @@ dec = ['<g class="decouple" aria-hidden="true">',
 o += mcu + dec
 
 # 접지 스티칭 비아 (장식)
-o.append('<g aria-hidden="true">' + ''.join(via(x, y, 'via-gnd') for x, y in [(130, 30), (750, 30), (130, 350), (660, 350), (440, 30), (590, 350)]) + '</g>')
+o.append('<g class="deco" aria-hidden="true">' + ''.join(via(x, y, 'via-gnd') for x, y in [(130, 30), (750, 30), (130, 350), (660, 350), (440, 30), (590, 350)]) + '</g>')
 
 for i, p in enumerate(parts):
     cy = p['cy']
     if p['side'] == 'L':
-        led_x, text_x, hit = 52, 62, (36, cy - 42, 250, 84)
+        led_x, text_x, hit = 50, 60, (36, cy - 42, 250, 84)
     else:
-        led_x, text_x, hit = 692, 704, (596, cy - 42, 260, 84)
+        led_x, text_x, hit = 690, 700, (596, cy - 42, 260, 84)
     o.append(f'{{%- assign c = site.data.blog_categories[{i}] -%}}{{%- assign n = site.categories[c.name] | size -%}}')
     o.append(f'''<a class="fp{{% if n > 0 %}} is-on{{% endif %}}" href="{{{{ '/category/' | append: c.slug | append: '/' | relative_url }}}}" style="--i: {i}">''')
     o.append(r(*hit, 'fp-hit', 6))
     o += [path(d, 'trace') for d in p['traces']]
     o += p['extra']
     o.append('<g class="part" aria-hidden="true">' + ''.join(p['g']) + '</g>')
-    o.append('<g aria-hidden="true">' + ''.join(p['refs']) + '</g>')
-    o.append(f'<g class="led-wrap">{led0603(led_x, cy - 6)}</g>')
-    o.append(f'<text class="fp-name" x="{text_x}" y="{cy - 1}">{{{{ c.name }}}}</text>')
+    o.append('<g class="refs" aria-hidden="true">' + ''.join(p['refs']) + '</g>')
+    o.append(f'<g class="led-wrap">{led0603(led_x, cy - 10)}</g>')
+    o.append(f'<foreignObject class="fp-plate-box" x="{text_x}" y="{cy - 23}" width="180" height="26"><div xmlns="http://www.w3.org/1999/xhtml" class="fp-plate"><span>{{{{ c.name }}}}</span></div></foreignObject>')
     o.append(f'<text class="fp-count" x="{text_x}" y="{cy + 19}">{{% if n > 0 %}}글 {{{{ n }}}}개{{% else %}}비어 있음{{% endif %}}</text>')
     o.append('</a>')
 

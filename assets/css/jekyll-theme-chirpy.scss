@@ -505,9 +505,49 @@ h5,
     transition: fill 0.2s;
   }
 
-  .fp:hover .fp-name,
-  .fp:focus-visible .fp-name {
-    fill: var(--pcb-led);
+  /* 카테고리 이름: 흰 실크 인쇄 판 위 글씨 */
+  .fp-plate-box {
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .fp-plate span {
+    display: inline-block;
+    padding: 5px 8px 4px;
+    border-radius: 2px;
+    background: var(--silk);
+    color: var(--pcb);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.15;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+  }
+
+  .fp:hover .fp-plate span,
+  .fp:focus-visible .fp-plate span {
+    background: var(--pcb-led);
+    color: #1d1a0c;
+  }
+
+  /* 장식 부품은 한 발 뒤로 */
+  .decouple,
+  .deco {
+    opacity: 0.45;
+  }
+
+  .refs {
+    opacity: 0.6;
+  }
+
+  /* 한 카테고리에 올리면 나머지는 흐리게 */
+  .fp {
+    transition: opacity 0.2s;
+  }
+
+  &:has(.fp:hover) .fp:not(:hover),
+  &:has(.fp:focus-visible) .fp:not(:focus-visible) {
+    opacity: 0.35;
   }
 
   .fp:hover .trace,
