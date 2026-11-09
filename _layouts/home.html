@@ -6,6 +6,14 @@ layout: default
 {%- assign recent = site.posts | where_exp: 'p', 'p.hidden != true' -%}
 
 <div class="home">
+  <header class="home-sign">
+    <blockquote class="sign-quote">
+      <p class="sign-lead">새는 알에서 나오려고 투쟁한다. 알은 세계다.</p>
+      <p class="sign-main">태어나려는 자는<br>하나의 세계를 깨뜨려야 한다.</p>
+    </blockquote>
+    <p class="sign-source">헤르만 헤세 『데미안』</p>
+  </header>
+
   {% include board.html %}
 
   <section class="home-intro" aria-label="소개">

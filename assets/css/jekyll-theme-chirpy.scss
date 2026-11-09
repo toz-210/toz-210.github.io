@@ -272,6 +272,46 @@ h5,
   padding-top: 1.5rem;
 }
 
+/* 간판: 『데미안』 한 구절 */
+.home-sign {
+  margin: 1rem 0 3rem;
+  max-width: 44rem;
+}
+
+.content .home-sign .sign-quote,
+.home-sign .sign-quote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+}
+
+.home-sign .sign-quote p {
+  margin: 0;
+  word-break: keep-all;
+}
+
+.home-sign .sign-lead {
+  font-size: 1.05rem;
+  color: var(--text-muted-color);
+  line-height: 1.6;
+}
+
+.home-sign .sign-main {
+  margin-top: 0.5rem !important;
+  font-size: clamp(1.45rem, 0.9rem + 2.8vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  color: var(--heading-color);
+}
+
+.home-sign .sign-source {
+  margin: 1.1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--copper);
+}
+
 .board {
   margin: 0 0 2.5rem;
 }
