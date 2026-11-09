@@ -1,31 +1,38 @@
 # 블로그 카테고리 목록
 # name: 글 앞부분 categories: [ ] 에 적는 이름과 정확히 같아야 함
+# part: 홈 기판에 그릴 부품 (header, crystal, fuse, resistor, capacitor, switch)
 - slug: dev
+  part: header
   name: 개발
   icon: fas fa-code
   desc: 프로젝트와 도구 개발 기록
 
 - slug: ctf-wargame
+  part: crystal
   name: CTF/Wargame
   icon: fas fa-flag
   desc: 문제 풀이와 접근 과정
 
 - slug: bug-bounty
+  part: fuse
   name: Bug Bounty
   icon: fas fa-bug
   desc: 취약점 분석과 제보 기록
 
 - slug: tech-doc
+  part: resistor
   name: 블로그/기술문서
   icon: fas fa-book
   desc: 기술 개념 정리
 
 - slug: paper-conference
+  part: capacitor
   name: 논문/컨퍼런스
   icon: fas fa-file-lines
   desc: 논문 리뷰와 발표 정리
 
 - slug: contest-cert
+  part: switch
   name: 공모전/자격증
   icon: fas fa-trophy
   desc: 대회 참가와 자격증 준비 기록

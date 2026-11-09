@@ -326,13 +326,82 @@ h5,
     stroke-width: 2.5;
   }
 
-  .fp-body {
-    fill: #0f1713;
-    transition: fill 0.2s;
+  /* 누를 수 있는 영역 (보이지 않음, 키보드 초점일 때만 표시) */
+  .fp-hit {
+    fill: transparent;
   }
 
-  .fp-pin {
-    fill: #8e9a93;
+  /* 부품: 실제 부품 색 */
+  .p-lead {
+    fill: none;
+    stroke: #b9c2bc;
+    stroke-width: 2.5;
+  }
+
+  .p-lead-box {
+    fill: #b9c2bc;
+  }
+
+  .p-plastic {
+    fill: #141a17;
+  }
+
+  .p-gold {
+    fill: #d6b35b;
+  }
+
+  .p-silver {
+    fill: #b7bfba;
+  }
+
+  .p-silver-in {
+    fill: #d6dcd8;
+  }
+
+  .p-glass {
+    fill: rgb(210 230 222 / 28%);
+  }
+
+  .p-wire {
+    fill: none;
+    stroke: #e0a868;
+    stroke-width: 1.5;
+  }
+
+  .p-res {
+    fill: #d8c29d;
+  }
+
+  .p-band1 { fill: #6b3e22; }
+  .p-band2 { fill: #1a1a1a; }
+  .p-band3 { fill: #d96b1f; }
+  .p-band4 { fill: #c9a14a; }
+
+  .p-cap {
+    fill: #2f5d93;
+  }
+
+  .p-cap-stripe {
+    fill: #8fb2d6;
+  }
+
+  .p-cap-vent {
+    fill: none;
+    stroke: #1d3d63;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .p-sw-in {
+    fill: #1a1f1c;
+  }
+
+  .p-sw-btn {
+    fill: #2b322e;
+  }
+
+  .part {
+    transition: transform 0.2s;
   }
 
   .fp-pad {
@@ -347,7 +416,7 @@ h5,
 
   .fp.is-on .led {
     fill: var(--pcb-led);
-    filter: drop-shadow(0 0 5px var(--pcb-led));
+    filter: drop-shadow(0 0 4px var(--pcb-led));
   }
 
   .fp-name {
@@ -371,9 +440,13 @@ h5,
     outline: none;
   }
 
-  .fp:hover .fp-body,
-  .fp:focus-visible .fp-body {
-    fill: #1b2620;
+  .fp-name {
+    transition: fill 0.2s;
+  }
+
+  .fp:hover .fp-name,
+  .fp:focus-visible .fp-name {
+    fill: var(--pcb-led);
   }
 
   .fp:hover .trace,
@@ -382,9 +455,10 @@ h5,
     opacity: 1;
   }
 
-  .fp:focus-visible .fp-body {
+  .fp:focus-visible .fp-hit {
     stroke: var(--pcb-led);
     stroke-width: 2;
+    stroke-dasharray: 4 4;
   }
 }
 
@@ -471,17 +545,14 @@ h5,
     display: flex;
     align-items: baseline;
     gap: 0.6rem;
-    padding: 0.75rem 0.9rem;
-    border-radius: 3px;
-    background: #0f1713;
+    padding: 0.55rem 0.4rem;
     color: var(--silk);
     text-decoration: none;
   }
 
-  a:hover,
-  a:focus-visible {
-    background: #1b2620;
-    color: var(--silk);
+  a:hover .bl-name,
+  a:focus-visible .bl-name {
+    color: var(--pcb-led);
   }
 
   .bl-name {
@@ -495,7 +566,7 @@ h5,
 
   .bl-led {
     align-self: center;
-    margin-left: auto;
+    flex: none;
     width: 0.6rem;
     height: 0.6rem;
     border-radius: 50%;
@@ -852,7 +923,7 @@ footer.site-foot {
 @media (prefers-reduced-motion: reduce) {
   .cat-grid .cat-tile,
   .board-svg .trace,
-  .board-svg .fp-body {
+  .board-svg .fp-name {
     transition: none;
   }
 }

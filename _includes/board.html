@@ -1,8 +1,8 @@
 {%- comment -%}
   홈 상단 기판 그림.
-  가운데 칩 = toz-210, 주변 부품 6개 = 카테고리.
-  부품 LED는 그 카테고리에 글이 있을 때만 켜짐.
-  카테고리 목록은 _data/blog_categories.yml 순서를 따름 (왼쪽 3개, 오른쪽 3개).
+  가운데 칩 = toz-210, 주변 = 카테고리마다 다른 부품 (_data/blog_categories.yml 의 part).
+  이름은 기판 인쇄 글씨처럼 부품 옆에. 옆의 작은 LED는 그 카테고리에 글이 있을 때만 켜짐.
+  순서: 왼쪽 3개, 오른쪽 3개.
 {%- endcomment -%}
 
 {%- assign spots = "48,79,L,M254 79 H270 L341 150 H356,270 79|48,190,L,M254 190 H356,|48,301,L,M254 301 H270 L341 230 H356,270 301|636,79,R,M626 79 H610 L539 150 H524,610 79|636,190,R,M626 190 H524,|636,301,R,M626 301 H610 L539 230 H524,610 301" | split: "|" -%}
@@ -34,27 +34,68 @@
   {%- assign n = site.categories[c.name] | size -%}
   {%- if s[2] == 'L' -%}
     {%- assign pad_x = x | plus: 189 -%}
-    {%- assign text_x = x | plus: 20 -%}
+    {%- assign part_x = x | plus: 163 -%}
+    {%- assign led_x = x | plus: 0 -%}
+    {%- assign text_x = x | plus: 12 -%}
   {%- else -%}
     {%- assign pad_x = x | minus: 7 -%}
-    {%- assign text_x = x | plus: 28 -%}
+    {%- assign part_x = x | plus: 36 -%}
+    {%- assign led_x = x | plus: 82 -%}
+    {%- assign text_x = x | plus: 94 -%}
   {%- endif -%}
   <a class="fp{% if n > 0 %} is-on{% endif %}" href="{{ '/category/' | append: c.slug | append: '/' | relative_url }}" style="--i: {{ forloop.index0 }}">
+    <rect class="fp-hit" x="{{ x | minus: 10 }}" y="{{ cy | minus: 40 }}" width="216" height="80" rx="6"/>
     <path class="trace" d="{{ s[3] }}"/>
     {%- if s[4] != blank -%}
     {%- assign v = s[4] | split: " " -%}
     <circle class="via" cx="{{ v[0] }}" cy="{{ v[1] }}" r="4.5"/>
     {%- endif -%}
-    {%- for k in (0..5) -%}
-    {%- assign pin_x = k | times: 28 | plus: x | plus: 26 -%}
-    <rect class="fp-pin" x="{{ pin_x }}" y="{{ cy | minus: 45 }}" width="8" height="7"/>
-    <rect class="fp-pin" x="{{ pin_x }}" y="{{ cy | plus: 38 }}" width="8" height="7"/>
-    {%- endfor -%}
-    <rect class="fp-body" x="{{ x }}" y="{{ cy | minus: 39 }}" width="196" height="78" rx="3"/>
     <rect class="fp-pad" x="{{ pad_x }}" y="{{ cy | minus: 8 }}" width="14" height="16" rx="2"/>
-    <circle class="led" cx="{{ x | plus: 174 }}" cy="{{ cy | minus: 20 }}" r="5"/>
-    <text class="fp-name" x="{{ text_x }}" y="{{ cy | minus: 2 }}">{{ c.name }}</text>
-    <text class="fp-count" x="{{ text_x }}" y="{{ cy | plus: 20 }}">{% if n > 0 %}글 {{ n }}개{% else %}비어 있음{% endif %}</text>
+
+    <g class="part part-{{ c.part }}" transform="translate({{ part_x }} {{ cy }})" aria-hidden="true">
+    {%- case c.part -%}
+    {%- when 'header' -%}
+      <rect class="p-plastic" x="-28" y="-16" width="56" height="32" rx="2"/>
+      {%- for col in (0..3) -%}
+      {%- assign px = col | times: 14 | minus: 24.5 -%}
+      <rect class="p-gold" x="{{ px }}" y="-10.5" width="7" height="7"/>
+      <rect class="p-gold" x="{{ px }}" y="3.5" width="7" height="7"/>
+      {%- endfor -%}
+    {%- when 'crystal' -%}
+      <path class="p-lead" d="M-29 0 H-21 M21 0 H29"/>
+      <rect class="p-silver" x="-22" y="-12" width="44" height="24" rx="12"/>
+      <rect class="p-silver-in" x="-17" y="-7" width="34" height="14" rx="7"/>
+    {%- when 'fuse' -%}
+      <path class="p-lead" d="M-29 0 H-26 M26 0 H29"/>
+      <rect class="p-glass" x="-17" y="-8" width="34" height="16"/>
+      <path class="p-wire" d="M-17 0 C-8 -7 8 7 17 0"/>
+      <rect class="p-silver" x="-27" y="-10" width="11" height="20" rx="2"/>
+      <rect class="p-silver" x="16" y="-10" width="11" height="20" rx="2"/>
+    {%- when 'resistor' -%}
+      <path class="p-lead" d="M-29 0 H-19 M19 0 H29"/>
+      <rect class="p-res" x="-20" y="-9" width="40" height="18" rx="8"/>
+      <rect class="p-band1" x="-11" y="-9" width="3.5" height="18"/>
+      <rect class="p-band2" x="-4" y="-9" width="3.5" height="18"/>
+      <rect class="p-band3" x="3" y="-9" width="3.5" height="18"/>
+      <rect class="p-band4" x="12" y="-9" width="3" height="18"/>
+    {%- when 'capacitor' -%}
+      <circle class="p-cap" r="22"/>
+      <path class="p-cap-stripe" d="M-12 -18.44 A22 22 0 0 0 -12 18.44 Z"/>
+      <path class="p-cap-vent" d="M2 0 V9 M2 0 L-6 -5 M2 0 L10 -5"/>
+    {%- when 'switch' -%}
+      <rect class="p-lead-box" x="-27" y="-17" width="7" height="6"/>
+      <rect class="p-lead-box" x="20" y="-17" width="7" height="6"/>
+      <rect class="p-lead-box" x="-27" y="11" width="7" height="6"/>
+      <rect class="p-lead-box" x="20" y="11" width="7" height="6"/>
+      <rect class="p-silver" x="-21" y="-21" width="42" height="42" rx="3"/>
+      <rect class="p-sw-in" x="-16" y="-16" width="32" height="32" rx="2"/>
+      <circle class="p-sw-btn" r="10"/>
+    {%- endcase -%}
+    </g>
+
+    <circle class="led" cx="{{ led_x }}" cy="{{ cy | minus: 7 }}" r="4"/>
+    <text class="fp-name" x="{{ text_x }}" y="{{ cy | minus: 1 }}">{{ c.name }}</text>
+    <text class="fp-count" x="{{ text_x }}" y="{{ cy | plus: 19 }}">{% if n > 0 %}글 {{ n }}개{% else %}비어 있음{% endif %}</text>
   </a>
   {%- endfor -%}
 
@@ -67,9 +108,9 @@
   {%- assign n = site.categories[c.name] | size -%}
   <li class="{% if n > 0 %}is-on{% endif %}">
     <a href="{{ '/category/' | append: c.slug | append: '/' | relative_url }}">
+      <span class="bl-led" aria-hidden="true"></span>
       <span class="bl-name">{{ c.name }}</span>
       <span class="bl-count">{% if n > 0 %}글 {{ n }}개{% else %}비어 있음{% endif %}</span>
-      <span class="bl-led" aria-hidden="true"></span>
     </a>
   </li>
   {%- endfor -%}
