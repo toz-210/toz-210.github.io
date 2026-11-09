@@ -46,7 +46,10 @@
   --card-bg: #142820;
   --card-header-bg: #1a3127;
   --card-hover-bg: #2a4a3a;
-  --card-shadow: rgb(0 0 0 / 30%) 0 4px 14px 0, #24392e 0 0 0 1px;
+  --card-shadow: rgb(0 0 0 / 28%) 0 8px 20px -10px;
+  --chip-bg: #182a20;
+  --chip-hover: #20362a;
+  --pin: #5d7065;
   --categories-border: #24392e;
   --menu-bg: #142820;
 
@@ -87,7 +90,10 @@
   --card-bg: #ffffff;
   --card-header-bg: #eef4f0;
   --card-hover-bg: #e3efe7;
-  --card-shadow: rgb(17 32 26 / 7%) 0 4px 14px 0, #dfe9e2 0 0 0 1px;
+  --card-shadow: rgb(17 32 26 / 9%) 0 8px 20px -10px;
+  --chip-bg: #e2eae4;
+  --chip-hover: #d6e1d9;
+  --pin: #9fb0a6;
   --categories-border: #dfe9e2;
 
   --site-title-color: #11201a;
@@ -211,12 +217,12 @@ h5,
   &::before {
     content: '';
     flex: none;
-    width: 0.7rem;
-    height: 0.7rem;
-    margin-right: 1.25rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 1.3rem;
     border-radius: 50%;
-    border: 2px solid var(--copper);
-    background: var(--sidebar-bg);
+    background: var(--copper);
+    box-shadow: 0 0 0 3px var(--sidebar-bg);
   }
 
   span {
@@ -230,7 +236,7 @@ h5,
   }
 
   &:hover::before {
-    background: var(--copper);
+    background: var(--heading-color);
   }
 
   &:focus-visible {
@@ -244,8 +250,7 @@ h5,
 
   &::before {
     background: var(--led);
-    border-color: var(--led);
-    box-shadow: 0 0 0 3px var(--led-halo), 0 0 10px var(--led);
+    box-shadow: 0 0 0 3px var(--sidebar-bg), 0 0 10px var(--led);
   }
 }
 
@@ -279,8 +284,6 @@ h5,
 
   .pcb {
     fill: var(--pcb);
-    stroke: var(--pcb-edge);
-    stroke-width: 3;
   }
 
   .holes circle {
@@ -323,11 +326,13 @@ h5,
     stroke-width: 2.5;
   }
 
-  .fp-outline {
-    fill: rgb(255 255 255 / 3%);
-    stroke: var(--silk-dim);
-    stroke-width: 1.5;
-    transition: stroke 0.2s;
+  .fp-body {
+    fill: #0f1713;
+    transition: fill 0.2s;
+  }
+
+  .fp-pin {
+    fill: #8e9a93;
   }
 
   .fp-pad {
@@ -366,9 +371,9 @@ h5,
     outline: none;
   }
 
-  .fp:hover .fp-outline,
-  .fp:focus-visible .fp-outline {
-    stroke: var(--silk);
+  .fp:hover .fp-body,
+  .fp:focus-visible .fp-body {
+    fill: #1b2620;
   }
 
   .fp:hover .trace,
@@ -377,17 +382,17 @@ h5,
     opacity: 1;
   }
 
-  .fp:focus-visible .fp-outline {
+  .fp:focus-visible .fp-body {
     stroke: var(--pcb-led);
-    stroke-width: 3;
+    stroke-width: 2;
   }
 }
 
 /* 처음 열 때 한 번: 배선이 칩에서 부품 쪽으로 이어짐 */
 @media (prefers-reduced-motion: no-preference) {
   .board-svg .trace {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
     animation: trace-in 0.7s ease-out forwards;
     animation-delay: calc(0.15s + var(--i, 0) * 0.08s);
   }
@@ -419,7 +424,6 @@ h5,
   padding: 1rem 1rem 1rem 2.25rem;
   border-radius: 12px;
   background: var(--pcb);
-  border: 3px solid var(--pcb-edge);
   position: relative;
 
   &::before {
@@ -467,16 +471,16 @@ h5,
     display: flex;
     align-items: baseline;
     gap: 0.6rem;
-    padding: 0.7rem 0.9rem;
-    border: 1.5px solid var(--silk-dim);
-    border-radius: 4px;
+    padding: 0.75rem 0.9rem;
+    border-radius: 3px;
+    background: #0f1713;
     color: var(--silk);
     text-decoration: none;
   }
 
   a:hover,
   a:focus-visible {
-    border-color: var(--silk);
+    background: #1b2620;
     color: var(--silk);
   }
 
@@ -516,7 +520,7 @@ h5,
 
 .content .board-list a,
 .content .board-list a:hover {
-  border-bottom-width: 1.5px;
+  border-bottom: 0;
 }
 
 /* 소개 두 줄 */
@@ -551,7 +555,6 @@ h5,
     list-style: none;
     padding: 0;
     margin: 0;
-    border-top: 1px solid var(--main-border-color);
   }
 
   .recent-list li {
@@ -559,8 +562,7 @@ h5,
     grid-template-columns: 6.5rem 1fr auto;
     gap: 1rem;
     align-items: baseline;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid var(--main-border-color);
+    padding: 0.55rem 0;
   }
 
   time {
@@ -585,8 +587,6 @@ h5,
 
   .recent-empty {
     margin: 0;
-    padding: 1rem 0;
-    border-top: 1px solid var(--main-border-color);
     color: var(--text-muted-color);
   }
 
@@ -624,33 +624,18 @@ h5,
   aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
-  border-radius: 4px;
-  background: transparent;
-  border: 1.5px solid var(--categories-border);
-  transition: border-color 0.2s ease;
-
-  /* 왼쪽 가장자리 납땜 패드 */
-  &::before {
-    content: '';
-    position: absolute;
-    left: -6px;
-    top: 50%;
-    width: 10px;
-    height: 16px;
-    margin-top: -8px;
-    border-radius: 2px;
-    background: var(--copper);
-  }
+  padding: 1.25rem 1.4rem;
+  border-radius: 3px;
+  background: var(--chip-bg);
+  transition: background-color 0.2s ease;
 
   &:hover {
-    border-color: var(--copper);
+    background: var(--chip-hover);
   }
 
   &:focus-visible {
-    border-color: var(--led);
     outline: 2px solid var(--led);
-    outline-offset: 2px;
+    outline-offset: 4px;
   }
 
   .cat-tile-led {
@@ -660,12 +645,14 @@ h5,
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    background: var(--categories-border);
+    background: var(--pin);
+    opacity: 0.6;
   }
 
   &.is-on .cat-tile-led {
     background: var(--led);
-    box-shadow: 0 0 0 3px var(--led-halo), 0 0 8px var(--led);
+    opacity: 1;
+    box-shadow: 0 0 8px var(--led);
   }
 
   .cat-tile-icon {
@@ -697,7 +684,7 @@ h5,
   }
 
   @media (max-width: 575.98px) {
-    padding: 0.9rem;
+    padding: 0.9rem 1rem;
 
     .cat-tile-icon {
       font-size: 1.2rem;
@@ -711,6 +698,26 @@ h5,
       display: none;
     }
   }
+}
+
+.cat-grid {
+  gap: 1rem;
+
+  @media (max-width: 575.98px) {
+    gap: 0.75rem;
+  }
+}
+
+/* 카테고리 상세: 빈 상태, 돌아가기 */
+.cat-empty {
+  margin: 1.5rem 0 0;
+  padding: 0 0.25rem;
+  color: var(--text-muted-color);
+}
+
+.cat-back {
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
 }
 
 /* ---------- 정보: 프로필 ---------- */
@@ -736,13 +743,8 @@ h5,
 .profile-facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem 2.75rem;
-  margin: 2rem 0 0;
-
-  > div {
-    padding-left: 0.9rem;
-    border-left: 2px solid var(--copper);
-  }
+  gap: 1.25rem 3.5rem;
+  margin: 2.25rem 0 0;
 
   dt {
     font-size: 0.8rem;
@@ -781,11 +783,11 @@ h5,
     content: '';
     position: absolute;
     left: 0;
-    top: 0.45em;
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    border: 2px solid var(--copper);
+    top: 0.5em;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 2px;
+    background: var(--copper);
   }
 
   strong {
@@ -850,7 +852,7 @@ footer.site-foot {
 @media (prefers-reduced-motion: reduce) {
   .cat-grid .cat-tile,
   .board-svg .trace,
-  .board-svg .fp-outline {
+  .board-svg .fp-body {
     transition: none;
   }
 }

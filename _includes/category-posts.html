@@ -35,16 +35,8 @@
 </article>
 {%- endfor -%}
 {%- else -%}
-<article class="card-wrapper card">
-<div class="card-body text-center py-5">
-<i class="far fa-folder-open fa-2x text-muted mb-3"></i>
-<p class="text-muted mb-0">아직 글 없음</p>
-</div>
-</article>
+<p class="cat-empty">아직 글 없음</p>
 {%- endif -%}
 </div>
 
-<div class="mt-4 px-1">
-<a href="{{ '/categories/' | relative_url }}" class="btn btn-sm btn-outline-secondary">
-<i class="fas fa-angle-left me-1"></i>카테고리 목록</a>
-</div>
+<p class="cat-back px-1"><a href="{{ '/categories/' | relative_url }}">카테고리 목록으로</a></p>
