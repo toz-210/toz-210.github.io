@@ -272,10 +272,20 @@ h5,
   padding-top: 1.5rem;
 }
 
-/* 간판: 『데미안』 한 구절 */
+/* 간판: 『데미안』 한 구절. 글자 크기는 간판 폭에 맞춰 커짐 */
+.home {
+  container-type: inline-size;
+}
+
 .home-sign {
-  margin: 1rem 0 3rem;
-  max-width: 44rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: clamp(15rem, 48cqi, 25rem);
+  margin: 0.5rem 0 2.5rem;
+  padding: clamp(1.25rem, 6cqi, 3.75rem);
+  border: 3px solid var(--copper);
+  border-radius: 6px;
 }
 
 .content .home-sign .sign-quote,
@@ -292,23 +302,38 @@ h5,
 }
 
 .home-sign .sign-lead {
-  font-size: 1.05rem;
+  font-size: clamp(1rem, 2.4cqi, 1.4rem);
   color: var(--text-muted-color);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .home-sign .sign-main {
-  margin-top: 0.5rem !important;
-  font-size: clamp(1.45rem, 0.9rem + 2.8vw, 2.9rem);
+  margin-top: 0.6em !important;
+  font-size: clamp(1.1rem, 7.2cqi, 4.3rem);
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.025em;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
   color: var(--heading-color);
 }
 
+/* 좁은 화면: 세 줄로 끊어서 글자를 크게 유지 */
+.home-sign .br-narrow {
+  display: none;
+}
+
+@container (max-width: 560px) {
+  .home-sign .br-narrow {
+    display: inline;
+  }
+
+  .home-sign .sign-main {
+    font-size: 9.4cqi;
+  }
+}
+
 .home-sign .sign-source {
-  margin: 1.1rem 0 0;
-  font-size: 0.9rem;
+  margin: 1.4em 0 0;
+  font-size: clamp(0.9rem, 2cqi, 1.1rem);
   color: var(--copper);
 }
 
