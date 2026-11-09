@@ -284,8 +284,9 @@ h5,
   min-height: clamp(15rem, 48cqi, 25rem);
   margin: 0.5rem 0 2.5rem;
   padding: clamp(1.25rem, 6cqi, 3.75rem);
-  border: 3px solid var(--copper);
+  border: 3px solid #c98a4b;
   border-radius: 6px;
+  background: #4a3018;
 }
 
 .content .home-sign .sign-quote,
@@ -303,17 +304,18 @@ h5,
 
 .home-sign .sign-lead {
   font-size: clamp(1rem, 2.4cqi, 1.4rem);
-  color: var(--text-muted-color);
+  color: #d9bf9b;
   line-height: 1.5;
 }
 
 .home-sign .sign-main {
   margin-top: 0.6em !important;
-  font-size: clamp(1.1rem, 7.2cqi, 4.3rem);
-  font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: -0.03em;
-  color: var(--heading-color);
+  font-family: 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
+  font-size: clamp(1.1rem, 7cqi, 4.2rem);
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  color: #fbeedb;
 }
 
 /* 좁은 화면: 세 줄로 끊어서 글자를 크게 유지 */
@@ -334,7 +336,7 @@ h5,
 .home-sign .sign-source {
   margin: 1.4em 0 0;
   font-size: clamp(0.9rem, 2cqi, 1.1rem);
-  color: var(--copper);
+  color: #f2c94c;
 }
 
 .board {
