@@ -511,8 +511,14 @@ h5,
     overflow: visible;
   }
 
+  .fp-plate-end {
+    text-align: right;
+  }
+
   .fp-plate span {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 5px 8px 4px;
     border-radius: 2px;
     background: var(--silk);
@@ -522,6 +528,20 @@ h5,
     line-height: 1.15;
     white-space: nowrap;
     transition: background-color 0.2s;
+  }
+
+  /* 이름판 안의 작은 LED (글이 있을 때만 켜짐) */
+  .plate-led {
+    display: inline-block;
+    width: 8px;
+    height: 5px;
+    border-radius: 1px;
+    background: #9aa49e;
+  }
+
+  .fp.is-on .plate-led {
+    background: #e0a800;
+    box-shadow: 0 0 5px #f6cf4e;
   }
 
   .fp:hover .fp-plate span,

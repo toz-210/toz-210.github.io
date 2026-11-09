@@ -108,6 +108,10 @@ extra = [path(f'M545 {yr:g} V240', 'trace-plain'), cap0603(545, 234), path('M545
 refs = [silk(618, cy - 27, 'SW1'), silk(553, 237, 'R1'), silk(666, cy - 27, 'RST', anchor='end')]
 parts.append(dict(side='R', cy=cy, g=g, traces=traces, extra=extra, refs=refs))
 
+# 이름표를 붙일 부품 가장자리 (왼쪽 부품은 왼쪽 끝, 오른쪽 부품은 오른쪽 끝)
+for p, edge in zip(parts, [205, 234, 226, 660, 664, 666]):
+    p['edge'] = edge
+
 # ---------- 출력 ----------
 o = []
 o.append('''{%- comment -%}
@@ -146,9 +150,11 @@ o.append('<g class="deco" aria-hidden="true">' + ''.join(via(x, y, 'via-gnd') fo
 for i, p in enumerate(parts):
     cy = p['cy']
     if p['side'] == 'L':
-        led_x, text_x, hit = 50, 60, (36, cy - 42, 250, 84)
+        right = p['edge'] - 10
+        plate_x, align, count_x, anchor, hit = right - 200, 'end', right, 'end', (36, cy - 42, 250, 84)
     else:
-        led_x, text_x, hit = 690, 700, (596, cy - 42, 260, 84)
+        left = p['edge'] + 10
+        plate_x, align, count_x, anchor, hit = left, 'start', left, 'start', (596, cy - 42, 260, 84)
     o.append(f'{{%- assign c = site.data.blog_categories[{i}] -%}}{{%- assign n = site.categories[c.name] | size -%}}')
     o.append(f'''<a class="fp{{% if n > 0 %}} is-on{{% endif %}}" href="{{{{ '/category/' | append: c.slug | append: '/' | relative_url }}}}" style="--i: {i}">''')
     o.append(r(*hit, 'fp-hit', 6))
@@ -156,9 +162,8 @@ for i, p in enumerate(parts):
     o += p['extra']
     o.append('<g class="part" aria-hidden="true">' + ''.join(p['g']) + '</g>')
     o.append('<g class="refs" aria-hidden="true">' + ''.join(p['refs']) + '</g>')
-    o.append(f'<g class="led-wrap">{led0603(led_x, cy - 10)}</g>')
-    o.append(f'<foreignObject class="fp-plate-box" x="{text_x}" y="{cy - 23}" width="180" height="26"><div xmlns="http://www.w3.org/1999/xhtml" class="fp-plate"><span>{{{{ c.name }}}}</span></div></foreignObject>')
-    o.append(f'<text class="fp-count" x="{text_x}" y="{cy + 19}">{{% if n > 0 %}}글 {{{{ n }}}}개{{% else %}}비어 있음{{% endif %}}</text>')
+    o.append(f'<foreignObject class="fp-plate-box" x="{plate_x}" y="{cy - 23}" width="200" height="26"><div xmlns="http://www.w3.org/1999/xhtml" class="fp-plate fp-plate-{align}"><span><i class="plate-led"></i>{{{{ c.name }}}}</span></div></foreignObject>')
+    o.append(f'<text class="fp-count" x="{count_x}" y="{cy + 19}" text-anchor="{anchor}">{{% if n > 0 %}}글 {{{{ n }}}}개{{% else %}}비어 있음{{% endif %}}</text>')
     o.append('</a>')
 
 o.append('''<text class="silk-rev" x="826" y="362" text-anchor="end">toz-210 rev {{ site.time | date: '%Y.%m.%d' }}</text>
